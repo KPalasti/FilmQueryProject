@@ -31,12 +31,8 @@ public class Actor {
 				&& Objects.equals(lastName, other.lastName);
 	}
 
-	public Actor(int id, String firstName, String lastName, List<Film> films) {
+	public Actor() {
 		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.films = films;
 	}
 
 	public void setId(int id) {
