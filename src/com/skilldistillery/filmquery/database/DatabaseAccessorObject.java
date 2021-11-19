@@ -16,8 +16,13 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
 
-	public DatabaseAccessorObject() throws ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
+	public DatabaseAccessorObject() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -106,25 +111,40 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			// Here is our mapping of query columns to our object fields:
 			film.setId(filmResult.getInt("id"));
 			film.setTitle(filmResult.getString("title"));
-			film.setDesc(filmResult.getString("desc"));
-			film.setReleaseYear(filmResult.getShort("releaseYear"));
-			film.setLangId(filmResult.getInt("langId"));
-			film.setRentDur(filmResult.getInt("rentDur"));
-			film.setRate(filmResult.getDouble("rate"));
+			film.setDescription(filmResult.getString("description"));
+			film.setReleaseYear(filmResult.getShort("release_year"));
+			film.setLanguageId(filmResult.getInt("language_id"));
+			film.setRentalDuration(filmResult.getInt("rental_duration"));
+			film.setRentalRate(filmResult.getDouble("rental_rate"));
 			film.setLength(filmResult.getInt("length"));
-			film.setRepCost(filmResult.getDouble("repCost"));
+			film.setReplacementCost(filmResult.getDouble("replacement_cost"));
 			film.setRating(filmResult.getString("rating"));
-			film.setFeatures(filmResult.getString("features"));
-			film.setActors(findFilmsByFilmId(filmId));
-			
+			film.setSpecialFeatures(filmResult.getString("special_features"));
+			film.setActors(findActorsByFilmId(filmId));
+
 		}
 		return film;
 	}
 
 	@Override
-	public List<Actor> findActorsByFilmId(int filmId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Actor> findActorsByFilmId(int filmId) throws SQLException {
+		List<Actor> actors = new ArrayList<>();
+		Actor actor = null;
+		String user = "student";
+		String pass = "student";
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String sql = "SELECT id, first_name, last_name FROM actor JOIN film_actor ON actor.id = film_actor.actor_id WHERE film_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet actorResult = stmt.executeQuery();
+		if (actorResult.next()) {
+			actor = new Actor(); // Create the object
+			// Here is our mapping of query columns to our object fields:
+			actor.setId(actorResult.getInt("id"));
+			actor.setFirstName(actorResult.getString("first_name"));
+			actor.setLastName(actorResult.getString("last_name"));
+			actors.add(actor);
+		}
+		return actors;
 	}
-
 }

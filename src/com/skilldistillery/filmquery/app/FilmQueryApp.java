@@ -1,5 +1,6 @@
 package com.skilldistillery.filmquery.app;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -10,19 +11,22 @@ public class FilmQueryApp {
   
   DatabaseAccessor db = new DatabaseAccessorObject();
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws SQLException {
     FilmQueryApp app = new FilmQueryApp();
-    app.test();
-//    app.launch();
+//    app.test();
+    app.launch();
   }
 
-  private void test() {
+  private void test() throws SQLException {
     Film film = db.findFilmById(1);
     System.out.println(film);
   }
 
   private void launch() {
     Scanner input = new Scanner(System.in);
+    //Build in here, menu--scanner input calls a specific method
+    //from database access object to utilize
+    //do test again but with user input from menu
     
     startUserInterface(input);
     
