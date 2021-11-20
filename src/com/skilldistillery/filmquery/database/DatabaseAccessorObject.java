@@ -165,8 +165,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		String user = "student";
 		String pass = "student";
 		Connection conn = DriverManager.getConnection(URL, user, pass);
-		String sql = "SELECT title, release_year, rating, description, film.id, language_id FROM film "
-				+ ""
+		String sql = "SELECT title, release_year, rating, description, film.id, language_id, language.name FROM film "
+				+ "JOIN language ON film.language_id = language.id "
 				+ "WHERE title LIKE ? OR description LIKE ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, keyword);
@@ -179,6 +179,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setTitle(filmResult.getString("title"));
 			film.setDescription(filmResult.getString("description"));
 			film.setReleaseYear(filmResult.getShort("release_year"));
+			film.setLanguageName(filmResult.getString("name"));
 //			film.setLanguageId(filmResult.getInt("language_id")); set full language
 //			film.setRentalDuration(filmResult.getInt("rental_duration"));
 //			film.setRentalRate(filmResult.getDouble("rental_rate"));
