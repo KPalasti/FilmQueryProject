@@ -38,12 +38,15 @@ public class FilmQueryApp {
     	System.out.println("Enter the id you would like to match to a film: ");
     	int matcher = scanner.nextInt();
     	try {
-			Film film = db.findFilmById(matcher);
-			System.out.println(film);
+    		Film film = db.findFilmById(matcher);
+    		if (film !=null){
+    			System.out.println(film);
+    		}
+    		else {
+    			System.out.println("No corresponding film id was found.");
+    		}
 		} catch (SQLException e) {
-			System.out.println("No corresponding film id was found." +e.toString());
 			e.printStackTrace();
-			//why doesn't this work? print my message
 		}
     	launch();
     	break;
@@ -51,14 +54,17 @@ public class FilmQueryApp {
     	System.out.println("Enter a keyword you would like to use to search for a film: ");
     	String keyword = scanner.nextLine();
     	try {
+    		if (db.findFilmBySearch(keyword) != null) {
     	db.findFilmBySearch(keyword);
-    	//how do I cross keyword boundary
-    		launch();
+    		}
+    		else {
+    			System.out.println("No matching films were found within your search parameters.");
+    		}
     	} catch (SQLException e) {
-			System.out.println("No matching films were found within your search parameters." +e.toString());
 			e.printStackTrace();
 			//why doesn't this work? print my message
 		}
+    	launch();
     	break;
     	
     case 3:
