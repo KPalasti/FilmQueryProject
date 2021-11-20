@@ -26,10 +26,6 @@ public class FilmQueryApp {
 
 	private void launch() {
 		Scanner scanner = new Scanner(System.in);
-		// Build in here, menu--scanner input calls a specific method
-		// from database access object to utilize
-		// do test again but with user input from menu
-//    look up a film by id, look up film by search keyword
 		System.out.println("1. Look up a film by its id: ");
 		System.out.println("2. Look up a film by a search keyword: ");
 		System.out.println("3. Exit the application.");
@@ -58,7 +54,6 @@ public class FilmQueryApp {
 			List<Film> films;
 			try {
 				films = db.findFilmBySearch(keyword);
-//				System.out.println(films);
 				if (films != null) {
 					System.out.println(films);
 				} else {
